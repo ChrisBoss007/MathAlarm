@@ -16,6 +16,22 @@ ws.config(bg="#447c84")
 ws.attributes('-fullscreen',True)
 
 def submit():
+    def Alarm(set_alarm_timer):
+        while True:
+            time.sleep(1)
+            actual_time = datetime.datetime.now()
+            cur_time = actual_time.strftime("%H:%M:%S")
+            cur_date = actual_time.strftime("%d/%m/%Y")
+            msg="Current Time: "+str(cur_time)
+            print(msg)
+            if cur_time == set_alarm_timer:
+                winsound.PlaySound("Music.wav",winsound.SND_ASYNC)
+                break
+
+    def get_alarm_time():
+        alarm_set_time = f"{hour.get()}:{min.get()}:{sec.get()}"
+        Alarm(alarm_set_time)
+
     ws = Tk()
     ws.title('Python Guides')
     ws.geometry('500x400')
@@ -39,12 +55,32 @@ def submit():
         font=("Helevetica",15,"bold")
         ).grid(row=1, columnspan=3, pady=10)
 
-    Entry(frame,textvariable = hour,bg = "#48C9B0",font=(20)).grid(row=3, column=1)
-    Entry(frame,textvariable = min,bg = "#48C9B0",font=(20)).grid(row=3, column=2)
-    Entry(frame,textvariable = sec,bg = "#48C9B0",font=(20)).grid(row=3, column=3)
+    #def clear_search(event):
+        #search.delete(0, tk.END)
+
+    hour = StringVar()
+    min = StringVar()
+    sec = StringVar()
+
+    HoursEntry = Entry(frame, width=8, textvariable = hour)
+    #HoursEntry.insert(0, "Hours")
+    HoursEntry.grid(row=2, column=1, columnspan=1)
+    #HoursEntry.bind("<Button-1>", clear_search)
+
+    MinutesEntry = Entry(frame, width=8, textvariable = min)
+    #MinutesEntry.insert(0, "Minutes")
+    MinutesEntry.grid(row=2, column=2)
+    #MinutesEntry.bind("<Button-1>", clear_search)
+
+    SecondsEntry = Entry(frame, width=8, textvariable = sec)
+    #SecondsEntry.insert(0, "Seconds")
+    SecondsEntry.grid(row=2, column=3)
+    #SecondsEntry.bind("<Button-1>", clear_search)
+
+
 
     ext2 = Button(frame, text="Exit", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=lambda:ws.destroy())
-    reg2 = Button(frame, text="Set Alarm", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"))
+    reg2 = Button(frame, text="Set Alarm", padx=20, pady=10, relief=SOLID,command = get_alarm_time,font=("Times", "14", "bold"))
     ext2.grid(row=6, column=2, pady=20)
     reg2.grid(row=6, column=1, pady=25)
 

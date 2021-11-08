@@ -1,19 +1,13 @@
 from tkinter import *
-import re
+#import re
 from tkinter import messagebox
-import sqlite3
-import random
-import smtplib
+#import sqlite3
+#import random
+#import smtplib
 import datetime
 import time
 import winsound
 
-
-ws = Tk()
-ws.title('Python Guides')
-ws.geometry('500x400')
-ws.config(bg="#447c84")
-ws.attributes('-fullscreen',True)
 
 def submit():
     def Alarm(set_alarm_timer):
@@ -26,6 +20,7 @@ def submit():
             print(msg)
             if cur_time == set_alarm_timer:
                 winsound.PlaySound("Music.wav",winsound.SND_ASYNC)
+                ws.messagebox.showinfo("Alarm")
                 break
 
     def get_alarm_time():
@@ -84,6 +79,12 @@ def submit():
     ext2.grid(row=6, column=2, pady=20)
     reg2.grid(row=6, column=1, pady=25)
 
+
+ws = Tk()
+ws.title('Python Guides')
+ws.geometry('500x400')
+ws.config(bg="#447c84")
+ws.attributes('-fullscreen',True)
 
 
 

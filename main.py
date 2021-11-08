@@ -1,106 +1,107 @@
+# Import Required Library
 from tkinter import *
-#import re
-from tkinter import messagebox
-#import sqlite3
-#import random
-#import smtplib
 import datetime
 import time
 import winsound
-
+from threading import *
+from tkinter import messagebox
 
 def submit():
-    def Alarm(set_alarm_timer):
+
+    def alarm():
+        # Infinite Loop
         while True:
+            # Set Alarm
+            set_alarm_time = f"{hour.get()}:{minute.get()}:{second.get()}"
+
+            # Wait for one seconds
             time.sleep(1)
-            actual_time = datetime.datetime.now()
-            cur_time = actual_time.strftime("%H:%M:%S")
-            cur_date = actual_time.strftime("%d/%m/%Y")
-            msg="Current Time: "+str(cur_time)
-            print(msg)
-            if cur_time == set_alarm_timer:
-                winsound.PlaySound("Music.wav",winsound.SND_ASYNC)
-                ws.messagebox.showinfo("Alarm")
+
+            # Get current time
+            current_time = datetime.datetime.now().strftime("%H:%M:%S")
+            print(current_time,set_alarm_time)
+
+            # Check whether set alarm is equal to current time or not
+            if current_time == set_alarm_time:
+                print("Time to Wake up")
+                # Playing sound
+                winsound.PlaySound("sound.wav",winsound.SND_ASYNC)
+                messagebox.showinfo(title="ALARM", message="Alarm is going off, its time to wake up!")
                 break
 
-    def get_alarm_time():
-        alarm_set_time = f"{hour.get()}:{min.get()}:{sec.get()}"
-        Alarm(alarm_set_time)
+    root = Tk()
+    root.geometry("400x300")
+    root.config(bg="#447c84")
+    root.title('MathAlarm')
 
-    ws = Tk()
-    ws.title('Python Guides')
-    ws.geometry('500x400')
-    ws.config(bg="#447c84")
-    ws.attributes('-fullscreen',True)
+    # Add Labels, Frame, Button, Optionmenus
+    Label(root,text="Alarm Clock",font=("Helvetica 20 bold"),fg="Black").pack(pady=10)
+    Label(root,text="Set Time",font=("Helvetica 15 bold")).pack()
 
-    frame = Frame(ws, padx=20, pady=20)
-    frame.pack(expand=True)
+    frame = Frame(root)
+    frame.pack()
 
-    Label(
-        frame,
-        text="Create Alarm",
-        font=("Times", "24", "bold")
-        ).grid(row=0, columnspan=3, pady=10)
-    Label(
-        frame,
-        text = "Set Time for Alarm: ",
-        fg="white",
-        bg="#922B21",
-        relief = "solid",
-        font=("Helevetica",15,"bold")
-        ).grid(row=1, columnspan=3, pady=10)
+    hour = StringVar(root)
+    hours = ('00', '01', '02', '03', '04', '05', '06', '07',
+            '08', '09', '10', '11', '12', '13', '14', '15',
+            '16', '17', '18', '19', '20', '21', '22', '23', '24'
+            )
+    hour.set(hours[0])
 
-    #def clear_search(event):
-        #search.delete(0, tk.END)
+    hrs = OptionMenu(frame, hour, *hours)
+    hrs.pack(side=LEFT)
 
-    hour = StringVar()
-    min = StringVar()
-    sec = StringVar()
+    minute = StringVar(root)
+    minutes = ('00', '01', '02', '03', '04', '05', '06', '07',
+            '08', '09', '10', '11', '12', '13', '14', '15',
+            '16', '17', '18', '19', '20', '21', '22', '23',
+            '24', '25', '26', '27', '28', '29', '30', '31',
+            '32', '33', '34', '35', '36', '37', '38', '39',
+            '40', '41', '42', '43', '44', '45', '46', '47',
+            '48', '49', '50', '51', '52', '53', '54', '55',
+            '56', '57', '58', '59', '60')
+    minute.set(minutes[0])
 
-    HoursEntry = Entry(frame, width=8, textvariable = hour)
-    #HoursEntry.insert(0, "Hours")
-    HoursEntry.grid(row=2, column=1, columnspan=1)
-    #HoursEntry.bind("<Button-1>", clear_search)
+    mins = OptionMenu(frame, minute, *minutes)
+    mins.pack(side=LEFT)
 
-    MinutesEntry = Entry(frame, width=8, textvariable = min)
-    #MinutesEntry.insert(0, "Minutes")
-    MinutesEntry.grid(row=2, column=2)
-    #MinutesEntry.bind("<Button-1>", clear_search)
+    second = StringVar(root)
+    seconds = ('00', '01', '02', '03', '04', '05', '06', '07',
+            '08', '09', '10', '11', '12', '13', '14', '15',
+            '16', '17', '18', '19', '20', '21', '22', '23',
+            '24', '25', '26', '27', '28', '29', '30', '31',
+            '32', '33', '34', '35', '36', '37', '38', '39',
+            '40', '41', '42', '43', '44', '45', '46', '47',
+            '48', '49', '50', '51', '52', '53', '54', '55',
+            '56', '57', '58', '59', '60')
+    second.set(seconds[0])
 
-    SecondsEntry = Entry(frame, width=8, textvariable = sec)
-    #SecondsEntry.insert(0, "Seconds")
-    SecondsEntry.grid(row=2, column=3)
-    #SecondsEntry.bind("<Button-1>", clear_search)
+    secs = OptionMenu(frame, second, *seconds)
+    secs.pack(side=LEFT)
+
+    Button(root,text="Set Alarm",font=("Helvetica 15"),command=alarm).pack(pady=20)
+    Button(root,text="Exit",font=("Helvetica 15"), command=lambda:root.destroy()).pack(pady=20)
+
+root = Tk()
+root.title('MathAlarm')
+root.geometry('347x400')
+root.config(bg="#447c84")
+
+welcomelabel = Label(root, text="Welcome to Math Alarm", font=("Times", "24", "bold"))
+welcomelabel.pack()
+
+ext = Button(root, text="Exit", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=lambda:root.destroy())
+reg = Button(root, text="Create new Alarm", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=submit)
+ext.pack()
+reg.pack()
+
+# Execute Tkinter
+root.mainloop()
 
 
 
-    ext2 = Button(frame, text="Exit", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=lambda:ws.destroy())
-    reg2 = Button(frame, text="Set Alarm", padx=20, pady=10, relief=SOLID,command = get_alarm_time,font=("Times", "14", "bold"))
-    ext2.grid(row=6, column=2, pady=20)
-    reg2.grid(row=6, column=1, pady=25)
-
-
-ws = Tk()
-ws.title('Python Guides')
-ws.geometry('500x400')
-ws.config(bg="#447c84")
-ws.attributes('-fullscreen',True)
 
 
 
-# frames
-frame = Frame(ws, padx=20, pady=20)
-frame.pack(expand=True)
 
-# labels
-Label(
-    frame,
-    text="Welcome to Math Alarm",
-    font=("Times", "24", "bold")
-    ).grid(row=0, columnspan=3, pady=10)
 
-ext = Button(frame, text="Exit", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=lambda:ws.destroy())
-reg = Button(frame, text="Create new Alarm", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=submit)
-ext.grid(row=6, column=2, pady=20)
-reg.grid(row=6, column=1, pady=25)
-ws.mainloop()

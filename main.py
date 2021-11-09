@@ -8,8 +8,22 @@ from tkinter import messagebox
 
 def submit():
 
-    def alarm():
+    def alarm(Curent):
         # Infinite Loop
+
+        root = Tk()
+        root.geometry("400x300")
+        root.config(bg="#447c84")
+        root.title('MathAlarm')
+
+        curentlabel = Label(root, text=Curent)
+        curentlabel.pack()
+
+
+
+
+
+
         while True:
             # Set Alarm
             set_alarm_time = f"{hour.get()}:{minute.get()}:{second.get()}"
@@ -21,6 +35,10 @@ def submit():
             current_time = datetime.datetime.now().strftime("%H:%M:%S")
             print(current_time,set_alarm_time)
 
+            Curent = current_time
+            set = set_alarm_time
+
+
             # Check whether set alarm is equal to current time or not
             if current_time == set_alarm_time:
                 print("Time to Wake up")
@@ -28,6 +46,7 @@ def submit():
                 winsound.PlaySound("sound.wav",winsound.SND_ASYNC)
                 messagebox.showinfo(title="ALARM", message="Alarm is going off, its time to wake up!")
                 break
+
 
     root = Tk()
     root.geometry("400x300")

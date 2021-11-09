@@ -10,20 +10,6 @@ def submit():
 
     def alarm(Curent):
         # Infinite Loop
-
-        root = Tk()
-        root.geometry("400x300")
-        root.config(bg="#447c84")
-        root.title('MathAlarm')
-
-        curentlabel = Label(root, text=Curent)
-        curentlabel.pack()
-
-
-
-
-
-
         while True:
             # Set Alarm
             set_alarm_time = f"{hour.get()}:{minute.get()}:{second.get()}"
@@ -34,9 +20,6 @@ def submit():
             # Get current time
             current_time = datetime.datetime.now().strftime("%H:%M:%S")
             print(current_time,set_alarm_time)
-
-            Curent = current_time
-            set = set_alarm_time
 
 
             # Check whether set alarm is equal to current time or not
@@ -101,14 +84,17 @@ def submit():
     Button(root,text="Set Alarm",font=("Helvetica 15"),command=alarm).pack(pady=20)
     Button(root,text="Exit",font=("Helvetica 15"), command=lambda:root.destroy()).pack(pady=20)
 
+#his is the window configuration
 root = Tk()
 root.title('MathAlarm')
 root.geometry('347x400')
 root.config(bg="#447c84")
 
+#This is a label that just wlecome the users.
 welcomelabel = Label(root, text="Welcome to Math Alarm", font=("Times", "24", "bold"))
 welcomelabel.pack()
 
+#Here are two button that will ither exit the aplication by using the root destory command, or it will run the submit function whitch will open the alarm window.
 ext = Button(root, text="Exit", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=lambda:root.destroy())
 reg = Button(root, text="Create new Alarm", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=submit)
 ext.pack()

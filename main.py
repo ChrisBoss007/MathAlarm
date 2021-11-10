@@ -6,6 +6,7 @@ import winsound
 from threading import *
 from tkinter import messagebox
 
+
 mainLabel = None
 (h, m, s) = (None, None, None)
 root = None
@@ -32,6 +33,17 @@ def alarm(): #Recrusive function
 
 def submit():
     global mainLabel
+
+    def save():
+        global h, m, s, hours, mins, secs
+
+        hui = hour.get()
+        mui = minute.get()
+        sui = second.get()
+
+        f = open("text_file.txt", "w")
+        f.write(hui + "\n", mui + "\n", sui + "\n")
+        f.close()
 
     def start():
         global h, m, s, hours, mins, secs
@@ -96,6 +108,7 @@ def submit():
 
     Button(root,text="Set Alarm",font=("Helvetica 15"), command=start).pack(pady=20)
     Button(root,text="Exit",font=("Helvetica 15"), command=lambda:root.destroy()).pack(pady=20)
+    Button(root,text="Save Alarm",font=("Helvetica 15"), command=save).pack(pady=20)
 
 root = Tk()
 root.title('MathAlarm')

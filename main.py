@@ -5,6 +5,7 @@ import time
 import winsound
 from threading import *
 from tkinter import messagebox
+from tkinter import simpledialog
 
 
 mainLabel = None
@@ -37,13 +38,25 @@ def submit():
     def save():
         global h, m, s, hours, mins, secs
 
+        alarmname = simpledialog.askstring("Input", "What would you like to call this alarm?",
+                                parent=root)
+        if alarmname is not None:
+            print("Your alarm name name is ", alarmname)
+        else:
+            print("You name your alarm")
+
         hui = hour.get()
         mui = minute.get()
         sui = second.get()
 
-        f = open("text_file.txt", "w")
-        f.write(hui + "\n", mui + "\n", sui + "\n")
-        f.close()
+
+        file = open(alarmname, 'a')
+        file.write(hui)
+        file.write('\n')
+        file.write(mui)
+        file.write('\n')
+        file.write(sui)
+        file.close()
 
     def start():
         global h, m, s, hours, mins, secs

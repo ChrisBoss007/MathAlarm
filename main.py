@@ -8,7 +8,37 @@ from tkinter import messagebox
 
 def submit():
 
-    def alarm(Curent):
+
+    def startCountdown():
+	    try:
+		    userinput = int(hour.get())*3600 + int(minute.get())*60 + int(second.get())
+	    except:
+		    messagebox.showwarning('', 'Invalid Input!')
+	    while userinput >-1:
+		    mins,secs = divmod(userinput,60)
+
+		    hours=0
+		    if mins >60:
+
+
+			    hours, mins = divmod(mins, 60)
+
+		    hour.set("{0:2d}".format(hours))
+		    minute.set("{0:2d}".format(mins))
+		    second.set("{0:2d}".format(secs))
+
+
+		    root.update()
+		    time.sleep(1)
+
+
+		    if (userinput == 0):
+			    messagebox.showinfo("", "Time's Up")
+
+
+		    userinput -= 1
+
+    def alarm():
         # Infinite Loop
         while True:
             # Set Alarm
@@ -28,7 +58,10 @@ def submit():
                 # Playing sound
                 winsound.PlaySound("sound.wav",winsound.SND_ASYNC)
                 messagebox.showinfo(title="ALARM", message="Alarm is going off, its time to wake up!")
+                startCountdown()
                 break
+
+
 
 
     root = Tk()
@@ -80,6 +113,33 @@ def submit():
 
     secs = OptionMenu(frame, second, *seconds)
     secs.pack(side=LEFT)
+
+    hour_tf= Entry(
+	    root,
+	    width=3,
+	    font=("Arial",24),
+	    textvariable=hour
+	    )
+
+    hour_tf.place(x=80,y=20)
+
+    mins_tf= Entry(
+	    root,
+	    width=3,
+	    font=("Arial",24),
+	    textvariable=minute)
+
+    mins_tf.place(x=130,y=20)
+
+    sec_tf = Entry(
+	    root,
+	    width=3,
+	    font=("Arial",24),
+	    textvariable=second)
+
+    sec_tf.place(x=180,y=20)
+
+
 
     Button(root,text="Set Alarm",font=("Helvetica 15"),command=alarm).pack(pady=20)
     Button(root,text="Exit",font=("Helvetica 15"), command=lambda:root.destroy()).pack(pady=20)

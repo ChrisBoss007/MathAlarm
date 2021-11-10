@@ -10,7 +10,7 @@ mainLabel = None
 (h, m, s) = (None, None, None)
 root = None
 
-def alarm():
+def alarm(): #Recrusive function
     global mainLabel
 
     set_alarm_time = f"{h}:{m}:{s}"
@@ -27,7 +27,7 @@ def alarm():
         messagebox.showinfo(title="ALARM", message="Alarm is going off, its time to wake up!")
         #no more need to schedule the function
     else:
-        #alarm time is not reached let's schedule the function again for one second
+        #alarm time is not reached let's recursively call the function again for one second
         root.after(1000, alarm)
 
 def submit():

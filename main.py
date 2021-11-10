@@ -6,63 +6,42 @@ import winsound
 from threading import *
 from tkinter import messagebox
 
+mainLabel = None
+(h, m, s) = (None, None, None)
+root = None
+
+def alarm():
+    global mainLabel
+
+    set_alarm_time = f"{h}:{m}:{s}"
+    current_time = datetime.datetime.now().strftime('%H:%M:%S')
+
+    mainLabel['text'] = current_time #update current time in label, you can show whatever you want
+    print(current_time, set_alarm_time)
+
+    # Check whether set alarm is equal to current time or not
+    if current_time == set_alarm_time:
+        print("Time to Wake up")
+        # Playing sound
+        winsound.PlaySound("sound.wav", winsound.SND_ASYNC)
+        messagebox.showinfo(title="ALARM", message="Alarm is going off, its time to wake up!")
+        #no more need to schedule the function
+    else:
+        #alarm time is not reached let's schedule the function again for one second
+        root.after(1000, alarm)
+
 def submit():
+    global mainLabel
 
+    def start():
+        global h, m, s, hours, mins, secs
 
-    def startCountdown():
-	    try:
-		    userinput = int(hour.get())*3600 + int(minute.get())*60 + int(second.get())
-	    except:
-		    messagebox.showwarning('', 'Invalid Input!')
-	    while userinput >-1:
-		    mins,secs = divmod(userinput,60)
-
-		    hours=0
-		    if mins >60:
-
-
-			    hours, mins = divmod(mins, 60)
-
-		    hour.set("{0:2d}".format(hours))
-		    minute.set("{0:2d}".format(mins))
-		    second.set("{0:2d}".format(secs))
-
-
-		    root.update()
-		    time.sleep(1)
-
-
-		    if (userinput == 0):
-			    messagebox.showinfo("", "Time's Up")
-
-
-		    userinput -= 1
-
-    def alarm():
-        # Infinite Loop
-        while True:
-            # Set Alarm
-            set_alarm_time = f"{hour.get()}:{minute.get()}:{second.get()}"
-
-            # Wait for one seconds
-            time.sleep(1)
-
-            # Get current time
-            current_time = datetime.datetime.now().strftime("%H:%M:%S")
-            print(current_time,set_alarm_time)
-
-
-            # Check whether set alarm is equal to current time or not
-            if current_time == set_alarm_time:
-                print("Time to Wake up")
-                # Playing sound
-                winsound.PlaySound("sound.wav",winsound.SND_ASYNC)
-                messagebox.showinfo(title="ALARM", message="Alarm is going off, its time to wake up!")
-                startCountdown()
-                break
-
-
-
+        print('scheduling alarm')
+        h = hour.get()
+        m = minute.get()
+        s = second.get()
+        (hours, mins, secs) = (int(h), int(m), int(s))
+        root.after(1000, alarm)
 
     root = Tk()
     root.geometry("400x300")
@@ -71,7 +50,8 @@ def submit():
 
     # Add Labels, Frame, Button, Optionmenus
     Label(root,text="Alarm Clock",font=("Helvetica 20 bold"),fg="Black").pack(pady=10)
-    Label(root,text="Set Time",font=("Helvetica 15 bold")).pack()
+    mainLabel = Label(root,text="Set Time",font=("Helvetica 15 bold"))
+    mainLabel.pack()
 
     frame = Frame(root)
     frame.pack()
@@ -114,59 +94,20 @@ def submit():
     secs = OptionMenu(frame, second, *seconds)
     secs.pack(side=LEFT)
 
-    hour_tf= Entry(
-	    root,
-	    width=3,
-	    font=("Arial",24),
-	    textvariable=hour
-	    )
-
-    hour_tf.place(x=80,y=20)
-
-    mins_tf= Entry(
-	    root,
-	    width=3,
-	    font=("Arial",24),
-	    textvariable=minute)
-
-    mins_tf.place(x=130,y=20)
-
-    sec_tf = Entry(
-	    root,
-	    width=3,
-	    font=("Arial",24),
-	    textvariable=second)
-
-    sec_tf.place(x=180,y=20)
-
-
-
-    Button(root,text="Set Alarm",font=("Helvetica 15"),command=alarm).pack(pady=20)
+    Button(root,text="Set Alarm",font=("Helvetica 15"), command=start).pack(pady=20)
     Button(root,text="Exit",font=("Helvetica 15"), command=lambda:root.destroy()).pack(pady=20)
 
-#his is the window configuration
 root = Tk()
 root.title('MathAlarm')
 root.geometry('347x400')
 root.config(bg="#447c84")
 
-#This is a label that just wlecome the users.
 welcomelabel = Label(root, text="Welcome to Math Alarm", font=("Times", "24", "bold"))
 welcomelabel.pack()
 
-#Here are two button that will ither exit the aplication by using the root destory command, or it will run the submit function whitch will open the alarm window.
 ext = Button(root, text="Exit", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=lambda:root.destroy())
 reg = Button(root, text="Create new Alarm", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=submit)
 ext.pack()
 reg.pack()
 
-# Execute Tkinter
 root.mainloop()
-
-
-
-
-
-
-
-

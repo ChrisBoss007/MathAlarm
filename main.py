@@ -6,11 +6,28 @@ import winsound
 from threading import *
 from tkinter import messagebox
 from tkinter import simpledialog
+from tkinter.filedialog import askopenfilename
 
 
 mainLabel = None
 (h, m, s) = (None, None, None)
 root = None
+
+def load():
+    filename = askopenfilename()
+
+    infoList = [line.rstrip('\n') for line in open(filename)]
+    print(infoList)
+
+    hours = infoList[1]
+    minitues = infoList[2]
+    secondss = infoList[3]
+
+    print(hours, minitues, secondss)
+
+
+
+
 
 def alarm(): #Recrusive function
     global mainLabel
@@ -133,7 +150,8 @@ welcomelabel.pack()
 
 ext = Button(root, text="Exit", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=lambda:root.destroy())
 reg = Button(root, text="Create new Alarm", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=submit)
+load = Button(root, text="Load", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=load)
 ext.pack()
 reg.pack()
-
+load.pack()
 root.mainloop()

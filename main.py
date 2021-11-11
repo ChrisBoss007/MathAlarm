@@ -13,25 +13,6 @@ mainLabel = None
 (h, m, s) = (None, None, None)
 root = None
 
-def load():
-    filename = askopenfilename()
-
-    infoList = [line.rstrip('\n') for line in open(filename)]
-    #print(infoList)
-
-    hours = infoList[0]
-    minitues = infoList[1]
-    secondss = infoList[2]
-
-    print(hours, minitues, secondss)
-    #alarm()
-
-    return hours, minitues, secondss
-
-
-
-
-
 
 def alarm(): #Recrusive function
     global mainLabel
@@ -55,6 +36,20 @@ def alarm(): #Recrusive function
 
 def submit():
     global mainLabel
+    def load():
+        filename = askopenfilename()
+
+        infoList = [line.rstrip('\n') for line in open(filename)]
+        #print(infoList)
+
+        hours = infoList[0]
+        minitue = infoList[1]
+        seconds = infoList[2]
+
+        print(hours, minitue, seconds)
+        #alarm()
+
+        return hours, minitue, seconds
 
     def save():
         global h, m, s, hours, mins, secs
@@ -143,6 +138,8 @@ def submit():
     Button(root,text="Set Alarm",font=("Helvetica 15"), command=start).pack(pady=20)
     Button(root,text="Exit",font=("Helvetica 15"), command=lambda:root.destroy()).pack(pady=20)
     Button(root,text="Save Alarm",font=("Helvetica 15"), command=save).pack(pady=20)
+    load = Button(root, text="Load", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=load)
+    load.pack()
 
 root = Tk()
 root.title('MathAlarm')
@@ -154,8 +151,8 @@ welcomelabel.pack()
 
 ext = Button(root, text="Exit", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=lambda:root.destroy())
 reg = Button(root, text="Create new Alarm", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=submit)
-load = Button(root, text="Load", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=load)
+
 ext.pack()
 reg.pack()
-load.pack()
+
 root.mainloop()

@@ -17,13 +17,17 @@ def load():
     filename = askopenfilename()
 
     infoList = [line.rstrip('\n') for line in open(filename)]
-    print(infoList)
+    #print(infoList)
 
-    hours = infoList[1]
-    minitues = infoList[2]
-    secondss = infoList[3]
+    hours = infoList[0]
+    minitues = infoList[1]
+    secondss = infoList[2]
 
     print(hours, minitues, secondss)
+    #alarm()
+
+    return hours, minitues, secondss
+
 
 
 

@@ -14,8 +14,9 @@ mainLabel2 = None
 (h, m, s) = (None, None, None)
 root = None
 
-
-def alarm(): #Recrusive function
+#Recrusive function
+#This fuction will run when the user has
+def alarm():
     global mainLabel
 
     set_alarm_time = f"{h}:{m}:{s}"
@@ -35,7 +36,7 @@ def alarm(): #Recrusive function
         #alarm time is not reached let's recursively call the function again for one second
         root.after(1000, alarm)
 
-def submit():
+def CreateNewAlarm():
     global mainLabel
     global mainLabel2
 
@@ -69,7 +70,7 @@ def submit():
 
 
 
-    def load():
+    def loadAlarm():
         global hh, mm, ss
         filename = askopenfilename()
 
@@ -221,7 +222,7 @@ def submit():
 
 
 
-    def save():
+    def saveAlarm():
         global h, m, s, hours, mins, secs
 
         alarmname = simpledialog.askstring("Input", "What would you like to call this alarm?",
@@ -244,7 +245,7 @@ def submit():
         file.write(sui)
         file.close()
 
-    def start():
+    def setAlarm():
         global h, m, s, hours, mins, secs
 
         print('scheduling alarm')
@@ -305,24 +306,33 @@ def submit():
     secs = OptionMenu(frame, second, *seconds)
     secs.pack(side=LEFT)
 
-    Button(root,text="Set Alarm",font=("Helvetica 15"), command=start).pack(pady=20)
-    Button(root,text="Exit",font=("Helvetica 15"), command=lambda:root.destroy()).pack(pady=20)
-    Button(root,text="Save Alarm",font=("Helvetica 15"), command=save).pack(pady=20)
-    load = Button(root, text="Load", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=load)
-    load.pack()
 
+    #These are button on the second window.
+    #The first button is the "Save Alarm" button which will run the "SaveAlarm" fuction which will take the alarm times the user set ans ave them to a file.
+    #The next button is the "Set alarm" button which will run the "SetAlarm" fuction which will take the time the user set and coundown to the curent time and then set off the alarm.
+    #The last button is the exsit buton which uses the .destroy command to close the aplication
+    Button(root,text="Set Alarm",font=("Helvetica 15"), command=setAlarm).pack(pady=20)
+    Button(root,text="Exit",font=("Helvetica 15"), command=lambda:root.destroy()).pack(pady=20)
+    Button(root,text="Save Alarm",font=("Helvetica 15"), command=saveAlarm).pack(pady=20)
+    loadAlarm = Button(root, text="Load", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=loadAlarm)
+    loadAlarm.pack()
+    #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#This is the configuration for the first window whitch will open upon running the program.
 root = Tk()
 root.title('MathAlarm')
 root.geometry('347x400')
 root.config(bg="#447c84")
 
+#This is simply a label that welcomes the user to the program.
 welcomelabel = Label(root, text="Welcome to Math Alarm", font=("Times", "24", "bold"))
 welcomelabel.pack()
 
-ext = Button(root, text="Exit", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=lambda:root.destroy())
-reg = Button(root, text="Create new Alarm", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=submit)
+#Here are two buttons, the exsit button uses the .destroy command to close the aplication. The other button will run the fuction "CreateNewAlarm" fuction.
+exsitbtn = Button(root, text="Exit", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=lambda:root.destroy())
+CreateAlarmbtn = Button(root, text="Create new Alarm", padx=20, pady=10, relief=SOLID, font=("Times", "14", "bold"), command=CreateNewAlarm)
+exsitbtn.pack()
+CreateAlarmbtn.pack()
 
-ext.pack()
-reg.pack()
-
+#This is the mainloop.
 root.mainloop()
